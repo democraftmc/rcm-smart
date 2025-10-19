@@ -1,7 +1,7 @@
 {
-  "main": "fr.democraft.rcm.helloworld.HelloWorld$Builder",
-  "name": "HelloWorld",
-  "description": "Simple HelloWorld module. Usless, unless you are a developer!",
+  "main": "fr.democraft.rcm.smart.SmartProvider$Builder",
+  "name": "Smart",
+  "description": "Cloudsystem but inside rusty.",
   "environments": [
     "proxy"
   ]

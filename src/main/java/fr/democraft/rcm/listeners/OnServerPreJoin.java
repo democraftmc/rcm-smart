@@ -1,6 +1,6 @@
-package fr.democraft.rcm.smart.listeners;
+package fr.democraft.rcm.listeners;
 
-import fr.democraft.rcm.smart.events.CreatePhysicalServer;
+import fr.democraft.rcm.events.CreatePhysicalServer;
 import group.aelysium.rustyconnector.RC;
 import group.aelysium.rustyconnector.common.events.EventListener;
 import group.aelysium.rustyconnector.proxy.events.ServerPreJoinEvent;

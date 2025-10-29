@@ -1,4 +1,4 @@
-package fr.democraft.rcm.smart.NOTGOOD.pterodactyl;
+package fr.democraft.rcm.NOTGOOD.pterodactyl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

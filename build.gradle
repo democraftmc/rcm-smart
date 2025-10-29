@@ -12,7 +12,7 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'com.gradleup.shadow'
 
-group = 'fr.democraft'
+group = 'fr.democraft.rcm'
 version = module_version
 
 repositories {
@@ -72,7 +72,7 @@ publishing {
     repositories {
         maven {
             name = 'Reposilite'
-            url = 'https://java.funa.dev/repository/maven-releases'
+            url = 'https://java.funa.dev/releases'
 
             credentials {
                 // Use environment variables for username and password
@@ -85,9 +85,10 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            groupId = 'fr.democraft.rcm.smart'
-            artifactId = 'rcm-smart'
-            version = '1.0.0'
+            groupId = 'fr.democraft.rcm'
+            artifactId = 'smart'
+            version = module_version
+            artifact shadowJar
         }
     }
 }

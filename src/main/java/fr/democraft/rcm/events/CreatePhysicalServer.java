@@ -1,4 +1,4 @@
-package fr.democraft.rcm.smart.events;
+package fr.democraft.rcm.events;
 
 import group.aelysium.rustyconnector.common.events.Event;
 import group.aelysium.rustyconnector.proxy.family.Family;

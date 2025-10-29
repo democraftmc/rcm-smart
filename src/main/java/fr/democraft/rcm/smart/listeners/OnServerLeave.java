@@ -25,6 +25,8 @@ public class OnServerLeave {
                 // Magic things that call the event/abstract creator.
                 // For now, no ram/managment logic, just calling this event
                 // As proof of concept.
+
+                //                                         This guy here is problematic ⬇
                 DeletePhysicalServer subEvent = new DeletePhysicalServer("pterodactyl", smartFamily); // Build a new instance of your custom event.
                 boolean status = RC.EventManager().fireEvent(subEvent).get(10, TimeUnit.SECONDS);
                 if (!status) {

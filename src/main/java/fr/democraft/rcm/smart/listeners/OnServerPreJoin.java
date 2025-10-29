@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static fr.democraft.rcm.smart.utils.ProviderUtils.selectProvider;
+
 public class OnServerPreJoin {
     @EventListener
     public static void handler(ServerPreJoinEvent event) throws ExecutionException, InterruptedException, TimeoutException {
@@ -21,10 +23,17 @@ public class OnServerPreJoin {
             Optional<Family> optionalSmartFamily = s.family();
             if (optionalSmartFamily.isPresent()) {
                 Family smartFamily = optionalSmartFamily.get();
-                // Magic things that call the event/abstract creator.
-                // For now, no ram/managment logic, just calling this event
-                // As proof of concept.
-                CreatePhysicalServer subEvent = new CreatePhysicalServer("pterodactyl", smartFamily); // Build a new instance of your custom event.
+
+                Integer ram = 0;
+                Optional<Integer> optionalRam = smartFamily.fetchMetadata("smart.ram");
+                if (optionalRam.isPresent()) { ram = optionalRam.get(); }
+
+                String id = selectProvider(smartFamily.id(), 10240);
+                if (id == null) {
+                    SmartProvider.logger.error("No providers want to created a " + smartFamily.displayName() + " server!");
+                    return;
+                }
+                CreatePhysicalServer subEvent = new CreatePhysicalServer(id, smartFamily);
                 boolean status = RC.EventManager().fireEvent(subEvent).get(10, TimeUnit.SECONDS);
                 if (!status) {
                     SmartProvider.logger.error("No server has created a " + smartFamily.displayName() + " server!");

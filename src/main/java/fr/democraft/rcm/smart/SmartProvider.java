@@ -1,4 +1,7 @@
 package fr.democraft.rcm.smart;
+import fr.democraft.rcm.smart.config.MainConfig;
+import fr.democraft.rcm.smart.config.Provider;
+import fr.democraft.rcm.smart.config.ProviderConfig;
 import fr.democraft.rcm.smart.listeners.OnServerLeave;
 import fr.democraft.rcm.smart.listeners.OnServerPreJoin;
 import fr.democraft.rcm.smart.loggers.SmartLogger;
@@ -13,9 +16,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SmartProvider implements Module {
-    public static final boolean DEBUG = false;
+    public static boolean DEBUG = false;
     public static final boolean useFancyLogger = true;
     public static SmartLogger logger; // Static loggers instance
+    public static MainConfig config;
+    public static ProviderConfig providerConfig;
 
     @Override
     public @Nullable Component details() {
@@ -29,7 +34,16 @@ public class SmartProvider implements Module {
         @Override
         public void bind(@NotNull ProxyKernel kernel, @NotNull SmartProvider instance) {
             // Initialize the loggers
-            if (useFancyLogger) { SmartProvider.logger = new FancyLogger();
+            try {
+                config = MainConfig.New();
+                providerConfig = ProviderConfig.New();
+                DEBUG = config.debug;
+            } catch (Exception e) {
+                System.out.println("[SmartRC] Failed to load configuration files.");
+                e.printStackTrace();
+                return;
+            }
+            if (config.fancyLogs) { SmartProvider.logger = new FancyLogger();
             } else { SmartProvider.logger = new ClassicLogger();}
             logger.log("Rusty's Smart Provider is booting up, please wait...");
 
@@ -38,6 +52,13 @@ public class SmartProvider implements Module {
                 m.listen(OnServerPreJoin.class);
                 m.listen(OnServerLeave.class);
             });
+
+            if (DEBUG) {
+                for (Provider provider : providerConfig.providers) {
+                    logger.debug("Loaded provider: " + provider.id);
+                }
+            }
+
             logger.debug("Event registered successfully");
             logger.log("Module loaded successfully");
         }

@@ -23,6 +23,7 @@ repositories {
 dependencies {
     compileOnly 'group.aelysium.rustyconnector:core:0.9.1'
     compileOnly 'net.kyori:adventure-api:4.17.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 java {

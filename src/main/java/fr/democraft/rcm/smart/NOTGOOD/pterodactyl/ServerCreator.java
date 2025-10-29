@@ -110,4 +110,21 @@ public class ServerCreator {
             System.err.println("Failed to create server: " + response.statusCode() + " " + response.body());
         }
     }
+
+    public static void deleteServer(int serverId) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(PANEL_API_URL + "/api/application/servers/" + serverId))
+                .header("Authorization", "Bearer " + API_KEY)
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 204) {
+            System.out.println("Server deleted successfully.");
+        } else {
+            System.err.println("Failed to delete server: " + response.statusCode() + " " + response.body());
+        }
+    }
 }

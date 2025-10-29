@@ -9,6 +9,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'java-library'
+apply plugin: 'maven-publish'
 apply plugin: 'com.gradleup.shadow'
 
 group = 'fr.democraft'
@@ -59,3 +60,34 @@ tasks.withType(Javadoc) {
 }
 
 jar.finalizedBy(shadowJar)
+
+tasks.register('printEnv') {
+    doLast {
+        println "REPOSILITE_USERNAME: ${System.getenv('REPOSILITE_USERNAME')}"
+        println "REPOSILITE_PASSWORD: ${System.getenv('REPOSILITE_PASSWORD')}"
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'Reposilite'
+            url = 'https://java.funa.dev/repository/maven-releases'
+
+            credentials {
+                // Use environment variables for username and password
+                username = System.getenv("REPOSILITE_USERNAME")
+                password = System.getenv("REPOSILITE_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId = 'fr.democraft.rcm.smart'
+            artifactId = 'rcm-smart'
+            version = '1.0.0'
+        }
+    }
+}

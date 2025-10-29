@@ -1,0 +1,25 @@
+# server.yml
+providers:
+  - id: "provider-small"
+    include: ["web", "api", "cache"]
+    exclude: ["database", "backend"]
+    process: 5
+    ram: 2048
+
+  - id: "provider-medium"
+    include: ["backend", "api", "processing"]
+    exclude: ["database-master"]
+    process: 10
+    ram: 8192
+
+  - id: "provider-large"
+    include: ["database", "backend", "processing", "analytics"]
+    exclude: []
+    process: 3
+    ram: 16384
+
+  - id: "provider-special"
+    include: ["database-master", "redis-master"]
+    exclude: ["web", "api"]
+    process: 2
+    ram: 4096

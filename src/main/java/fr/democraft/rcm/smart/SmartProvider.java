@@ -1,6 +1,6 @@
-package fr.democraft.rcm;
+package fr.democraft.rcm.smart;
 
-import fr.democraft.rcm.listeners.OnServerPreJoin;
+import fr.democraft.rcm.smart.listeners.OnServerPreJoin;
 import group.aelysium.rustyconnector.common.events.EventManager;
 import group.aelysium.rustyconnector.common.modules.ExternalModuleBuilder;
 import group.aelysium.rustyconnector.common.modules.Module;

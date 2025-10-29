@@ -1,6 +1,6 @@
-package fr.democraft.rcm.listeners;
+package fr.democraft.rcm.smart.listeners;
 
-import fr.democraft.rcm.events.CreatePhysicalServer;
+import fr.democraft.rcm.smart.events.CreatePhysicalServer;
 import group.aelysium.rustyconnector.RC;
 import group.aelysium.rustyconnector.common.events.EventListener;
 import group.aelysium.rustyconnector.proxy.events.ServerPreJoinEvent;
@@ -20,7 +20,7 @@ public class OnServerPreJoin {
                 // Magic things that call the event/abstract creator.
                 // For now, no ram/managment logic, just calling this event
                 // As proof of concept.
-                CreatePhysicalServer subEvent = new CreatePhysicalServer(smartFamily); // Build a new instance of your custom event.
+                CreatePhysicalServer subEvent = new CreatePhysicalServer("pterodactyl", smartFamily); // Build a new instance of your custom event.
                 RC.EventManager().fireEvent(subEvent); // Fire the event.
             }
         }

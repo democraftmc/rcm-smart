@@ -24,7 +24,6 @@ repositories {
 dependencies {
     compileOnly 'group.aelysium.rustyconnector:core:0.9.1'
     compileOnly 'net.kyori:adventure-api:4.17.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 java {
@@ -84,11 +83,20 @@ publishing {
 
     publications {
         maven(MavenPublication) {
+            // Force le type de packaging à 'jar'
+            pom.withXml {
+                def root = asNode()
+                def packagingNode = root.appendNode('packaging', 'jar')
+                root.children().findAll { it.name() == 'packaging' }.each { root.remove(it) }
+                root.appendNode('packaging', 'jar')
+            }
+            // Utilise le shadowJar comme artefact principal
+            artifact shadowJar
+            // Ajoute les dépendances au POM
             from components.java
             groupId = 'fr.democraft.rcm'
             artifactId = 'smart'
             version = module_version
-            artifact shadowJar
         }
     }
 }

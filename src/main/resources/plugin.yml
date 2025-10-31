@@ -1,0 +1,7 @@
+name: SmartRustyConnectorModule
+version: '${version}'
+description: Smart RustyConnector Module
+author: Funasitien
+website: https://smart.democraft.fr
+main: fr.democraft.rcm.smart.NotAPlugin
+api-version: '1.21'

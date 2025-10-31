@@ -1,6 +1,7 @@
 package fr.democraft.rcm.smart.listeners;
 
 import fr.democraft.rcm.smart.SmartProvider;
+import fr.democraft.rcm.smart.config.MainConfig;
 import fr.democraft.rcm.smart.events.CreatePhysicalServer;
 import fr.democraft.rcm.smart.events.DeletePhysicalServer;
 import group.aelysium.rustyconnector.RC;
@@ -18,7 +19,7 @@ public class OnServerLeave {
     @EventListener
     public static void handler(ServerLeaveEvent event) throws ExecutionException, InterruptedException, TimeoutException {
         Server s = event.server;
-        if (s.softPlayerCap() == s.players()) {
+        if (s.players() == (s.softPlayerCap() + SmartProvider.config.playerCap)) {
             Optional<Family> optionalSmartFamily = s.family();
             if (optionalSmartFamily.isPresent()) {
                 Family smartFamily = optionalSmartFamily.get();

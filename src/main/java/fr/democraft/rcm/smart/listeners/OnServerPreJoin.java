@@ -19,7 +19,7 @@ public class OnServerPreJoin {
     @EventListener
     public static void handler(ServerPreJoinEvent event) throws ExecutionException, InterruptedException, TimeoutException {
         Server s = event.server;
-        if (s.softPlayerCap() == s.players()) {
+        if (s.players() == (s.softPlayerCap() + SmartProvider.config.playerCap)) {
             Optional<Family> optionalSmartFamily = s.family();
             if (optionalSmartFamily.isPresent()) {
                 Family smartFamily = optionalSmartFamily.get();

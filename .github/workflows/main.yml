@@ -28,14 +28,19 @@ jobs:
           sed -i "s/module_version.*/module_version=alpha-${{ steps.vars.outputs.SHORT_SHA }}/" gradle.properties
           cat gradle.properties
 
+      - name: Install Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          gradle-version: current # Remplacez par la version de Gradle que vous utilisez
+
       - name: Build with Gradle
-        run: ./gradlew build
+        run: gradle build
 
       - name: Upload to Modrinth
         uses: cloudnode-pro/modrinth-publish@v2
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
-          project: AABBCCDD
+          project: b227Xhmj
           name: alpha-${{ steps.vars.outputs.SHORT_SHA }}
           version: alpha-${{ steps.vars.outputs.SHORT_SHA }}
           changelog: "Automatic build from commit ${{ steps.vars.outputs.SHORT_SHA }}"
@@ -43,6 +48,11 @@ jobs:
             paper
             spigot
             bukkit
+          dependencies: |-
+            [{
+              "project_id": "Hd02Faj9",
+              "dependency_type": "required"
+            }]
           game-versions: |-
             1.20.x
             1.21.x

@@ -45,9 +45,7 @@ jobs:
           version: alpha-${{ steps.vars.outputs.SHORT_SHA }}
           changelog: "Automatic build from commit ${{ steps.vars.outputs.SHORT_SHA }}"
           loaders: |-
-            paper
-            spigot
-            bukkit
+            velocity
           dependencies: |-
             [{
               "project_id": "Hd02Faj9",

@@ -60,6 +60,10 @@ jobs:
               "dependency_type": "required"
             }]
           game-versions: |-
+            1.16.x
+            1.17.x
+            1.18.x
+            1.19.x
             1.20.x
             1.21.x
-          files: build/libs/smart-alpha-${{ steps.vars.outputs.SHORT_SHA }}.jar
+          files: build/libs/rcm-smart-alpha-${{ steps.vars.outputs.SHORT_SHA }}.jar

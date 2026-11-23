@@ -1,0 +1,45 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'group.aelysium.rustyconnector'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Velocity supplies these when it loads the entrypoint.
+    compileOnly 'com.google.inject:guice:6.0.0'
+    compileOnly 'org.slf4j:slf4j-api:2.0.12'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+gradlePlugin {
+    plugins {
+        smartProviderPackaging {
+            id = 'group.aelysium.rustyconnector.smart-provider-packaging'
+            implementationClass = 'group.aelysium.rustyconnector.smart.packaging.SmartProviderPackagingPlugin'
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'localTest'
+            url = layout.buildDirectory.dir('repository')
+        }
+        maven {
+            name = 'funaRepo'
+            url = uri('https://java.funa.dev/releases')
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}

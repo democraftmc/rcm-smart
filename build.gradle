@@ -1,30 +1,97 @@
-
-plugins {
-    id 'base'
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.gradleup.shadow:shadow-gradle-plugin:9.0.0-beta4'
+    }
 }
 
-group = 'fr.democraft.rcs'
+apply plugin: 'java-library' // Note: 'java-library' automatically applies 'java', so you don't need both
+apply plugin: 'com.gradleup.shadow'
+apply plugin: 'maven-publish'
+
+group = 'fun.democraft'
 version = module_version
 
-subprojects {
-    apply plugin: 'java-library'
+repositories {
+    mavenCentral()
+    maven { url = "https://java.funa.dev/snapshots/" }
+    maven { url = "https://java.funa.dev/releases/" }
+}
 
-    group = rootProject.group
-    version = rootProject.version
+dependencies {
+    compileOnly 'group.aelysium.rustyconnector:core:' + rustyconnector_version
+    compileOnly 'net.kyori:adventure-api:4.17.0'
+    compileOnly 'com.google.inject:guice:6.0.0'
+    compileOnly 'org.slf4j:slf4j-api:2.0.12'
+}
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withJavadocJar()
+    withSourcesJar()
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('processResources').configure {
+    def metadata = [version: project.version.toString()]
+    inputs.properties(metadata)
+    filteringCharset = 'UTF-8'
+    filesMatching('velocity-plugin.json') {
+        expand(metadata)
+    }
+}
+
+shadowJar {
+    archiveBaseName.set(archives_base_name)
+    archiveClassifier.set('')
+    mergeServiceFiles()
+}
+
+tasks.named('jar').configure {
+    enabled = false
+}
+
+// Ensure 'gradle build' and 'gradle assemble' still trigger shadowJar
+tasks.named('assemble').configure {
+    dependsOn(shadowJar)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-Xdoclint:none']
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+publishing {
     repositories {
-        mavenCentral()
-    }
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+        maven {
+            name = "funaRepo"
+            url = uri("https://java.funa.dev/releases")
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
-        withSourcesJar()
-        withJavadocJar()
     }
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group.toString()
+            artifactId = "smart"
+            version = project.version.toString()
 
-    tasks.withType(JavaCompile).configureEach {
-        options.encoding = 'UTF-8'
+            from components.shadow
+        }
     }
 }

@@ -1,0 +1,17 @@
+{
+  "main": "fun.democraft.smart.SmartBuilder",
+  "name": "Smart",
+  "description": "Smart server orchestration core. Providers (pterodactyl, etc.) plug into this module to provision and deprovision servers based on family demand.",
+  "dependencies": [
+    "Haze"
+  ],
+  "sharedPackages": [
+    "fun.democraft.smart.api",
+    "fun.democraft.smart.ProviderConfig",
+    "fun.democraft.smart.SmartModule",
+    "fun.democraft.smart.SmartServerRegistry"
+  ],
+  "environments": [
+    "proxy"
+  ]
+}

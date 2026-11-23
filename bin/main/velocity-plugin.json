@@ -1,0 +1,7 @@
+{
+  "id": "rcm-smart",
+  "name": "RC Smart",
+  "version": "${version}",
+  "description": "RustyConnector Smart module. Install in rc-modules/.",
+  "main": "fun.democraft.smart.MisplacedSmartPlugin"
+}

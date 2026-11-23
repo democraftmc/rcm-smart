@@ -2,6 +2,8 @@ package fun.democraft.smart;
 
 import group.aelysium.rustyconnector.RC;
 import group.aelysium.rustyconnector.common.errors.Error;
+import group.aelysium.rustyconnector.common.modules.stats.RustyContext;
+import group.aelysium.rustyconnector.shaded.dev.faststats.Metrics;
 import group.aelysium.rustyconnector.common.events.EventManager;
 import group.aelysium.rustyconnector.common.haze.HazeDatabase;
 import group.aelysium.rustyconnector.common.modules.Module;
@@ -31,9 +33,13 @@ public class SmartModule implements Module {
     private final AtomicBoolean active = new AtomicBoolean(true);
     private final Object provisioningLock = new Object();
     private StartupProvisioning startupProvisioning;
+    private final RustyContext context = new RustyContext.Factory(this, "8bced7c4b0b146cfaed68d573053af1c")
+            .metrics(Metrics.Factory::create)
+            .create();
 
     public SmartModule(@NotNull SmartConfig config, @NotNull Flux<HazeDatabase> database) {
         this.config = config;
+        this.context.ready();
         this.serverRegistry = new SmartServerRegistry(database);
     }
 
@@ -179,6 +185,7 @@ public class SmartModule implements Module {
     @Override
     public synchronized void close() throws Exception {
         this.active.set(false);
+        this.context.shutdown();
         if (this.startupProvisioning != null) this.startupProvisioning.close();
         this.providerRegistry.providers().forEach(p -> this.providerRegistry.unregister(p.id()));
     }

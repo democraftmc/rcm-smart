@@ -49,7 +49,6 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Publish the devbuild to Modrinth
-        if: ${{ (github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && vars.MODRINTH_PUBLISH_ON_PUSH == 'true') }}
         uses: cloudnode-pro/modrinth-publish@b9509165154967230d3a8f4fab4dd56fc533a30d # v2.5.3
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}

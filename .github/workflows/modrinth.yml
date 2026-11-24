@@ -60,8 +60,7 @@ jobs:
           game-versions: ${{ env.MODRINTH_GAME_VERSIONS }}
           dependencies: >-
             [
-              {"project_id":"Hd02Faj9","dependency_type":"required"},
-              {"project_id":"b227Xhmj","dependency_type":"required"}
+              {"project_id":"Hd02Faj9","dependency_type":"required"}
             ]
           changelog: |
             ${{ github.event.head_commit.message || 'Manual development build.' }}
